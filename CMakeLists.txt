@@ -2,8 +2,9 @@
 ## Root CMakeLists.txt
 ## #################################################################
 
-# >= 2.8.12 to be able to use the target variant of commands. >= 3.3 to have access to IN_LIST operator.
-cmake_minimum_required(VERSION 3.3)
+# >= 2.8.12 to be able to use the target variant of commands.
+# >= 3.3 to have access to IN_LIST operator.
+cmake_minimum_required(VERSION 3.12)
 
 project(Graphics)
 
@@ -17,10 +18,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Definitions of custom macros
 include (cmc-macros)
+include (cmc-cpp)
 
 # Definition of custom variables
 cmc_define_option_variables()
 
+set(CMAKE_CXX_STANDARD 14)
 
 ## #################################################################
 ## Setup output paths
@@ -47,13 +50,6 @@ option(BUILD_SHARED_LIBS "Build shared libraries" false)
 
 # TODO : list optional components here, assigning one variable each
 #option (BUILD_xxx "Build xxx application" true)
-
-
-# 
-# C++ version control
-# 
-include(cmc-cpp) # for cmc_select_cpp_version
-cmc_select_cpp_version()
 
 
 ## #################################################################

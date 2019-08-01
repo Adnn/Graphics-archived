@@ -4,13 +4,10 @@
 
 project(Math)
 
-# TODO : list .dox standalone doxygen pages here
 set(${PROJECT_NAME}_DOXYGEN
     #mainpage.dox
 )
 
-# TODO : list .h files here. 
-# Helpful windows command : dir /b /oen
 set(${PROJECT_NAME}_HEADERS
     commons.h
 
@@ -24,19 +21,16 @@ set(${PROJECT_NAME}_HEADERS
     Vector-impl.h
 )
 
-# TODO : list .cpp files here
-set(${PROJECT_NAME}_SOURCES
-)
-
 cmc_source_group() ## For IDE generators, groups files based on the subfolder organisation
 
-add_library(${PROJECT_NAME}
-    ${${PROJECT_NAME}_SOURCES}
-    ${${PROJECT_NAME}_HEADERS}
-    ${${PROJECT_NAME}_DOXYGEN}
-)
+add_library(${PROJECT_NAME} INTERFACE)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+# To have the files show up in the IDE
+add_custom_target(${PROJECT_NAME}_IDE
+    SOURCES
+        ${${PROJECT_NAME}_HEADERS}
+        ${${PROJECT_NAME}_DOXYGEN}
+)
 
 ## Adds the library headers themselves to the interface include directory
 ## Adds the parent folder to the header search path used when building *this* library.
@@ -44,25 +38,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 ## (eg. instead of relying on potentially backtracing relative paths inside this library)
 ## Drawback: this is making the other libraries in the lib/ folder visible for inclusion.
 target_include_directories(${PROJECT_NAME} 
-                            PUBLIC
+                            INTERFACE
                                 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-                            PRIVATE
-                                $<INSTALL_INTERFACE:include>
 )
-
-# Public includes
-target_include_directories(${PROJECT_NAME} PUBLIC
-)
-
-# Public includes treated as system (i.e., not generating warnings)
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
-)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC
-)
-
-
-cmc_target_all_warnings_as_errors(${PROJECT_NAME})
 
 
 ######################################################################
@@ -76,12 +54,12 @@ include(cmc-install)
 #cmc_target_depends(${PROJECT_NAME} "Boost COMPONENT filesystem")
 #cmc_target_depends(${PROJECT_NAME} "OtherLib")
 
-cmc_target_install_package(${PROJECT_NAME}
-                           NAMESPACE ad
-                           PUBLIC_HEADER ${${PROJECT_NAME}_HEADERS}
-                           GENERATE_EXPORT_HEADER
-                           #VERSION "__"
-                           #SOVERSION "__"
-                           #COMPATIBILITY SameMajorVersion
-)
+#cmc_target_install_package(${PROJECT_NAME}
+#                           NAMESPACE ad
+#                           PUBLIC_HEADER ${${PROJECT_NAME}_HEADERS}
+#                           GENERATE_EXPORT_HEADER
+#                           #VERSION "__"
+#                           #SOVERSION "__"
+#                           #COMPATIBILITY SameMajorVersion
+#)
 

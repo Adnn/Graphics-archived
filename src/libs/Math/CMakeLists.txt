@@ -49,6 +49,41 @@ target_include_directories(${PROJECT_NAME}
 
 include(cmc-install)
 
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)
+
+# Install the header files
+cmc_install_header_preserve_structure("include/${PROJECT_NAME}"
+                                      "${${PROJECT_NAME}_HEADERS}")
+
+set(TARGETFILE ${PROJECT_NAME}Targets.cmake)
+
+# Generate config files in the build tree, from the template in cmake/Config.cmake.in
+configure_file(${CMAKE_SOURCE_DIR}/cmake/Config.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+               @ONLY
+)
+
+# build tree
+export(EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE ad::
+    FILE ${CMAKE_CURRENT_BINARY_DIR}/${TARGETFILE}
+)
+
+# install tree
+install(EXPORT ${PROJECT_NAME}Targets
+    FILE ${TARGETFILE}
+    DESTINATION lib/cmake/${PROJECT_NAME}
+    NAMESPACE ad::
+)
+
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    DESTINATION lib/cmake/${PROJECT_NAME}
+)
+
+
+#include(cmc-install)
+
 # TODO: Allow the generated Config file to autonomously find the dependencies of the target,
 # giving -for each dependency- a string equivalent to the arguments that would be given to find_package.
 #cmc_target_depends(${PROJECT_NAME} "Boost COMPONENT filesystem")

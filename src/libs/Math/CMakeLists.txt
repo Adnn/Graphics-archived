@@ -2,7 +2,7 @@
 ## CMakeLists.txt
 ## #################################################################
 
-project(Math)
+project(math)
 
 set(${PROJECT_NAME}_DOXYGEN
     #mainpage.dox

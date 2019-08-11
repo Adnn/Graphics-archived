@@ -2,4 +2,4 @@
 ## CMakeLists.txt
 ## #################################################################
 
-conditional_add_subdirectory(Math)
+conditional_add_subdirectory(math)

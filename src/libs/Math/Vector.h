@@ -33,6 +33,47 @@ T_derived operator*(const Vector<T_derived, N_dimension, T_number> aLhs,
  * Specializations
  ***/
 
+#define BASE Vector<T_derived, 4, T_number>
+template <class T_derived, class T_number>
+class Vec4Base : public BASE
+{
+    typedef BASE base_type;
+    using base_type::base_type;
+
+public:
+    T_derived & crossAssign(const Vec4Base &aRhs);
+    T_derived cross(const Vec4Base &aRhs);
+
+    T_number &x()
+    { return this->at(0); }
+    T_number &y()
+    { return this->at(1); }
+    T_number &z()
+    { return this->at(2); }
+    T_number &w()
+    { return this->at(3); }
+
+    T_number x() const
+    { return this->at(0); }
+    T_number y() const
+    { return this->at(1); }
+    T_number z() const
+    { return this->at(2); }
+    T_number w() const
+    { return this->at(3); }
+};
+#undef BASE
+
+
+#define BASE Vec4Base<Vec4<T_number>, T_number>
+template <class T_number=real_number>
+class Vec4 : public BASE
+{
+    typedef BASE base_type;
+    using base_type::base_type;
+};
+#undef BASE
+
 #define BASE Vector<T_derived, 3, T_number>
 template <class T_derived, class T_number>
 class Vec3Base : public BASE
@@ -98,6 +139,32 @@ class Vec2 : public BASE
 {
     typedef BASE base_type;
     using base_type::base_type;
+};
+#undef BASE
+
+
+#define BASE Vector<Dimension2<T_number>, 2, T_number>
+template <class T_number=real_number>
+class Dimension2 : public BASE
+{
+    typedef BASE base_type;
+    using base_type::base_type;
+
+    /// \TODO disable most of the public functions
+
+public:
+    T_number &width()
+    { return this->at(0); }
+    T_number &height()
+    { return this->at(1); }
+
+    T_number width() const
+    { return this->at(0); }
+    T_number height() const
+    { return this->at(1); }
+
+    T_number area() const
+    { return width()*height(); }
 };
 #undef BASE
 

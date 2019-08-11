@@ -4,13 +4,10 @@
 
 project(Tests)
 
-# TODO : list .h files here. 
-# Helpful windows command : dir /b /oen
 set(${PROJECT_NAME}_HEADERS
     catch.hpp
 )
 
-# TODO : list .cpp files here
 set(${PROJECT_NAME}_SOURCES
     Barycentric.cpp
     Matrix.cpp
@@ -25,7 +22,7 @@ add_executable(${PROJECT_NAME}
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ad::Math
+    Math
 )
 
 

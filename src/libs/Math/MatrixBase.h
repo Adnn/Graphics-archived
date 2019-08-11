@@ -118,11 +118,13 @@ protected:
     MatrixBase() = delete;
 
     struct UninitializedTag{};
-    /// \brief Like a default constructor, but inaccessible to the client code thanks to the protected tag.
-    MatrixBase(UninitializedTag);
 
     MatrixBase(const MatrixBase &aRhs) = default;
     MatrixBase & operator=(const MatrixBase &aRhs) = default;
+
+public:
+    /// \brief Like a default constructor, but inaccessible to the client code thanks to the protected tag.
+    MatrixBase(UninitializedTag);
 
 private:
     store_type mStore;
